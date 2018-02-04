@@ -1,0 +1,94 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  AWS CloudFormation Template demonstrating how to create a CodePipeline to deploy Source
+  code to an Elastic Beanstalk enviroment. The stack contains a pipeline that polls a GitHub
+  Source repository for code changes, and deploys the code to an Elastic Beanstalk environment
+  when changes are detected. You will be billed for the AWS resources used if you create a 
+  stack from this template.
+Parameters:
+  ArtifactStoreBucket:
+    Type: String
+    Description: >-
+      S3 bucket to use for artifacts. Just bucket Name; not URL. IAM user should
+      have access to the bucket.
+    Default: 'YourS3BucketName'
+  GitHubToken:
+    NoEcho: 'true'
+    Type: String
+    Description: >-
+      Secret. It might look something like
+      9b189a1654643522561f7b3ebd44a1531a4287af OAuthToken with access to Repo.
+      Go to https://github.com/settings/tokens
+  GitHubUser:
+    Type: String
+    Description: GitHub username
+    Default: ''
+  Repo:
+    Type: String
+    Description: GitHub repo to pull from. Only the name, not the URL
+    Default: parse-server-example
+  Branch:
+    Type: String
+    Description: Branch to use from repo. Only the name, not the URL
+    Default: dev
+  MyInputArtifacts:
+    Type: String
+    Default: ParseSource
+  ParseApplicationName:
+    Type: String
+    Default: 'ParseDevelopmentApplication'
+  ParseEnvironmentName:
+    Type: String
+    Default: 'DevelopmentParseEnv'
+  CodePipelineServiceRole:
+    Type: String
+    Default: ''
+    Description: This IAM role must have proper permissions.
+Resources:
+  AppPipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      RoleArn: !Ref CodePipelineServiceRole
+      Stages:
+        - Name: Source
+          Actions:
+            - InputArtifacts: []
+              Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: '1'
+                Provider: GitHub
+              OutputArtifacts:
+                - Name: !Ref MyInputArtifacts
+              Configuration:
+                Owner: !Ref GitHubUser
+                Repo: !Ref Repo
+                Branch: !Ref Branch
+                OAuthToken: !Ref GitHubToken
+        - Name: Deploy
+          Actions:
+            - InputArtifacts: 
+                - Name: !Ref MyInputArtifacts
+              Name: Deploy
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Version: '1'
+                Provider: ElasticBeanstalk
+              Configuration:
+                ApplicationName: !Ref ParseApplicationName
+                EnvironmentName: !Ref ParseEnvironmentName
+      ArtifactStore:
+        Type: S3
+        Location: !Ref ArtifactStoreBucket
+Outputs:
+  StackName:
+    Value: !Ref 'AWS::StackName'
+  CodePipelineURL:
+    Value: !Join 
+      - ''
+      - - 'https://console.aws.amazon.com/codepipeline/home?region='
+        - !Ref 'AWS::Region'
+        - '#/view/'
+        - !Ref AppPipeline
