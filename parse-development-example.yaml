@@ -42,9 +42,9 @@ Parameters:
 Mappings:
   SubnetConfig:
     VPC:
-      CIDR: 172.29.0.0/16
+      CIDR: 172.31.0.0/16
     Public:
-      CIDR: 172.29.1.0/24
+      CIDR: 172.31.1.0/24
   AWSInstanceType2Arch:
     t2.nano:
       Arch: HVM64
