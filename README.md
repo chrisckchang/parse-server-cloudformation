@@ -79,10 +79,10 @@ Note: The Stack creation process might take a few minutes!
 
 Both the development and production templates will require the following parameters:
 
-* APP_ID (you can use any String value)
-* MASTER_KEY (you can use any String value)
-* DATABASE_URI ([how to find your mLab URI](http://docs.mlab.com/connecting/#connect-string)) 
-* EC2KeyName (the [AWS SSH keyPair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name to allow SSH access to the EC2 host)
+* `APP_ID` (you can use any String value)
+* `MASTER_KEY` (you can use any String value)
+* `DATABASE_URI` ([how to find your mLab URI](http://docs.mlab.com/connecting/#connect-string)) 
+* `EC2KeyName` (the [AWS SSH keyPair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name to allow SSH access to the EC2 host)
 
 The CodePipeline template uses a GitHub repository as a source and uses OAuth tokens. Generate a [GitHub token](https://github.com/settings/tokens) and ensure you enable the following scopes:
 
