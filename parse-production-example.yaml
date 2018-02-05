@@ -1,13 +1,12 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  AWS CloudFormation Sample Template Parse_ElasticBeanstalk_in_VPC: Sample
-  template showing how to create a Parse application with an Elastic Beanstalk
-  environment in a VPC. The stack contains 2 subnets: the first subnet is public
-  and contains the load balancer, a NAT device for internet access from the
-  private subnet and a bastion host to allow SSH access to the Elastic Beanstalk
-  hosts. The second subnet is private and contains the Elastic Beanstalk
-  instances. You will be billed for the AWS resources used if you create a stack
-  from this template.
+  AWS CloudFormation Template demonstrating how to create a production Parse application 
+  with an Elastic Beanstalk environment in a VPC. The stack contains 2 public subnets that
+  house the Application Load Balancer, NAT Gateways, and 1 bastion host (in us-east-1a).
+  The stack also contains 2 private subnets that house the EC2 instances that power the EB
+  application. The EC2 instances are configured in an autoscaling group to ensure that there
+  is always a redundant EC2 node running. You will be billed for the AWS resources used if 
+  you create a stack from this template.
 Parameters:
   BastionKeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the bastion host.
@@ -531,7 +530,7 @@ Resources:
     Properties:
       InstanceType: !Ref BastionInstanceType
       KeyName: !Ref BastionKeyName
-      SubnetId: !Ref 1bPublicSubnet
+      SubnetId: !Ref 1aPublicSubnet
       ImageId: !FindInMap 
         - AWSRegionArch2AMI
         - !Ref 'AWS::Region'
