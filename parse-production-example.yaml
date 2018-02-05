@@ -606,7 +606,7 @@ Resources:
       ApplicationName: !Ref ParseApplication
       SourceBundle:
         S3Bucket: changy
-        S3Key: chrisckchang-parse.zip
+        S3Key: chrisckchang-parse-prod.zip
   ParseProductionEnvironment:
     Type: 'AWS::ElasticBeanstalk::Environment'
     Properties:
