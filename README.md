@@ -69,7 +69,7 @@ Consider adding more subnets in different availability zones and/or more EC2 ins
 To use these examples: 
 
 1. Clone this repo
-2. Log in to the [AWS console for Cloudformation in us-east-1] (https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks?filter=active).
+2. Log in to the [AWS console for Cloudformation in us-east-1](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks?filter=active).
 3. Click "Create Stack"
 4. Choose a template -> Upload a template to Amazon S3.
 5. Upload the template you'd like to use
